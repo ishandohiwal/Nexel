@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nexel — AI, Reimagined</title>
+    <meta name="description" content="Nexel — one intelligent workspace for chat, search, creation, coding and more.">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-mark">N</div>
+                <span>Nexel</span>
+            </div>
+
+            <button class="new-chat" id="newChatBtn">
+                <span>＋</span>
+                New Chat
+            </button>
+
+            <nav class="navigation">
+
+                <div class="nav-section">
+                    <p class="nav-label">Workspace</p>
+
+                    <button class="nav-item active">
+                        <span>⌂</span>
+                        Home
+                    </button>
+
+                    <button class="nav-item">
+                        <span>◉</span>
+                        Chat
+                    </button>
+
+                    <button class="nav-item">
+                        <span>⌕</span>
+                        Search
+                    </button>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-label">Create</p>
+
+                    <button class="nav-item">
+                        <span>✦</span>
+                        Image
+                    </button>
+
+                    <button class="nav-item">
+                        <span>◇</span>
+                        Enhance
+                    </button>
+
+                    <button class="nav-item">
+                        <span>♫</span>
+                        Music
+                    </button>
+
+                    <button class="nav-item">
+                        <span>&lt;/&gt;</span>
+                        Code
+                    </button>
+
+                    <button class="nav-item">
+                        <span>▣</span>
+                        Video
+                    </button>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-label">Organize</p>
+
+                    <button class="nav-item">
+                        <span>□</span>
+                        My Planner
+                    </button>
+                </div>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <button class="nav-item">
+                    <span>⚙</span>
+                    Settings
+                </button>
+
+                <div class="user-mini">
+                    <div class="avatar">G</div>
+                    <div>
+                        <strong>Guest</strong>
+                        <small>Free Plan</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+
+            <header class="topbar">
+
+                <button class="mobile-menu" id="mobileMenu">
+                    ☰
+                </button>
+
+                <div class="topbar-title">
+                    <span>Workspace</span>
+                </div>
+
+                <button class="upgrade-btn">
+                    Upgrade
+                </button>
+
+            </header>
+
+
+            <!-- HERO -->
+            <section class="hero">
+
+                <div class="hero-glow"></div>
+
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        <span class="status-dot"></span>
+                        Nexel is ready
+                    </div>
+
+                    <h1>
+                        What will you<br>
+                        <span>create today?</span>
+                    </h1>
+
+                    <p>
+                        Chat, search, create, code and organize —
+                        all from one intelligent workspace.
+                    </p>
+
+                    <!-- MAIN PROMPT -->
+                    <div class="prompt-box">
+
+                        <textarea
+                            id="promptInput"
+                            placeholder="Ask Nexel anything..."
+                            rows="1"
+                        ></textarea>
+
+                        <div class="prompt-bottom">
+
+                            <div class="prompt-tools">
+
+                                <button title="Attach file">
+                                    ＋
+                                </button>
+
+                                <button title="Choose model">
+                                    ✦ Model
+                                </button>
+
+                            </div>
+
+                            <button class="send-btn" id="sendBtn">
+                                ↑
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- QUICK ACTIONS -->
+                    <div class="quick-actions">
+
+                        <button class="quick-card">
+                            <span class="quick-icon">⌕</span>
+                            <div>
+                                <strong>Search the web</strong>
+                                <small>Find current information</small>
+                            </div>
+                        </button>
+
+                        <button class="quick-card">
+                            <span class="quick-icon">✦</span>
+                            <div>
+                                <strong>Create an image</strong>
+                                <small>Turn ideas into visuals</small>
+                            </div>
+                        </button>
+
+                        <button class="quick-card">
+                            <span class="quick-icon">◇</span>
+                            <div>
+                                <strong>Enhance an image</strong>
+                                <small>Upscale and restore</small>
+                            </div>
+                        </button>
+
+                        <button class="quick-card">
+                            <span class="quick-icon">&lt;/&gt;</span>
+                            <div>
+                                <strong>Write code</strong>
+                                <small>Build something new</small>
+                            </div>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FEATURE GRID -->
+            <section class="features">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-eyebrow">EXPLORE NEXEL</span>
+                        <h2>Your AI workspace</h2>
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+
+                    <article class="feature-card large">
+                        <div class="feature-icon">◉</div>
+                        <div>
+                            <h3>Chat</h3>
+                            <p>
+                                Talk with Nexel in the style that fits you.
+                                Buddy, Teacher, Professional, Guide and more.
+                            </p>
+                        </div>
+                        <span class="card-arrow">↗</span>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">⌕</div>
+                        <h3>Web Search</h3>
+                        <p>Search the web and get sourced answers.</p>
+                        <span class="card-arrow">↗</span>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">✦</div>
+                        <h3>Image</h3>
+                        <p>Turn your imagination into visuals.</p>
+                        <span class="card-arrow">↗</span>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">◇</div>
+                        <h3>Enhance</h3>
+                        <p>Restore and upscale your images.</p>
+                        <span class="card-arrow">↗</span>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">♫</div>
+                        <h3>Music</h3>
+                        <p>Create original music from ideas.</p>
+                        <span class="card-arrow">↗</span>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">&lt;/&gt;</div>
+                        <h3>Code</h3>
+                        <p>Build, debug and understand code.</p>
+                        <span class="card-arrow">↗</span>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">▣</div>
+                        <h3>Video</h3>
+                        <p>Bring cinematic ideas to life.</p>
+                        <span class="card-arrow">↗</span>
+                    </article>
+
+                    <article class="feature-card planner-card">
+                        <div class="feature-icon">□</div>
+                        <h3>My Planner</h3>
+                        <p>Turn your plans into an organized day.</p>
+                        <span class="card-arrow">↗</span>
+                    </article>
+
+                </div>
+
+            </section>
+
+            <footer>
+                <span>© 2026 Nexel</span>
+                <span>Intelligence, reimagined.</span>
+            </footer>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
