@@ -1,545 +1,1116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Nexel Chat</title>
+    <title>Nexel Chat — AI, Reimagined</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <style>
 
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 70% 10%, rgba(124, 58, 237, 0.16), transparent 30%),
-        #08080d;
-      color: #f5f5f7;
-      font-family: Arial, Helvetica, sans-serif;
-      display: flex;
-      overflow: hidden;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* SIDEBAR */
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 70% 10%,
+                    rgba(124, 58, 237, 0.16),
+                    transparent 30%
+                ),
+                #08080d;
 
-    .sidebar {
-      width: 270px;
-      height: 100vh;
-      background: rgba(15, 15, 22, 0.96);
-      border-right: 1px solid rgba(255,255,255,0.08);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
+            color: #f5f5f7;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            overflow: hidden;
+        }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 23px;
-      font-weight: 800;
-    }
+        button,
+        textarea {
+            font: inherit;
+        }
 
-    .brand-mark {
-      width: 36px;
-      height: 36px;
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-      box-shadow: 0 0 25px rgba(139,92,246,0.35);
-    }
+        button {
+            cursor: pointer;
+        }
 
-    .new-chat {
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
-      color: white;
-      padding: 13px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 14px;
-      text-align: left;
-    }
 
-    .new-chat:hover {
-      background: rgba(255,255,255,0.09);
-    }
+        /* =========================
+           SIDEBAR
+        ========================= */
 
-    .history-title {
-      color: #777783;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 10px;
-    }
+        .sidebar {
+            width: 270px;
+            height: 100vh;
 
-    .history-item {
-      padding: 11px;
-      border-radius: 10px;
-      color: #b8b8c4;
-      font-size: 14px;
-      cursor: pointer;
-    }
+            background: rgba(15, 15, 22, 0.96);
 
-    .history-item:hover {
-      background: rgba(255,255,255,0.05);
-      color: white;
-    }
+            border-right: 1px solid rgba(255,255,255,0.08);
 
-    .profile {
-      margin-top: auto;
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.04);
-      color: #bdbdc8;
-      font-size: 13px;
-    }
+            padding: 20px;
 
-    /* MAIN */
+            display: flex;
+            flex-direction: column;
 
-    .main {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
+            gap: 18px;
 
-    .topbar {
-      height: 68px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      background: rgba(8,8,13,0.72);
-      backdrop-filter: blur(15px);
-    }
+            flex-shrink: 0;
+        }
 
-    .chat-title {
-      font-size: 16px;
-      font-weight: 700;
-    }
 
-    .mode {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 9px 13px;
-      border-radius: 10px;
-      color: #dddde5;
-      font-size: 13px;
-    }
+        .brand {
+            display: flex;
+            align-items: center;
 
-    .mode-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #8b5cf6;
-      box-shadow: 0 0 10px #8b5cf6;
-    }
+            gap: 10px;
 
-    /* CHAT AREA */
+            font-size: 23px;
+            font-weight: 800;
+        }
 
-    .chat-area {
-      flex: 1;
-      overflow-y: auto;
-      padding: 35px 20px 140px;
-    }
 
-    .welcome {
-      max-width: 700px;
-      margin: 90px auto 0;
-      text-align: center;
-    }
+        .brand-mark {
+            width: 36px;
+            height: 36px;
 
-    .welcome-icon {
-      width: 65px;
-      height: 65px;
-      margin: auto;
-      border-radius: 20px;
-      display: grid;
-      place-items: center;
-      font-size: 28px;
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-      box-shadow: 0 0 45px rgba(139,92,246,0.25);
-    }
+            border-radius: 11px;
 
-    .welcome h1 {
-      margin-top: 22px;
-      font-size: clamp(28px, 5vw, 42px);
-    }
+            display: grid;
+            place-items: center;
 
-    .welcome p {
-      margin-top: 12px;
-      color: #858591;
-      line-height: 1.6;
-    }
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #a855f7
+                );
 
-    /* MESSAGES */
+            box-shadow:
+                0 0 25px rgba(139,92,246,0.35);
+        }
 
-    .messages {
-      max-width: 850px;
-      margin: auto;
-    }
 
-    .message {
-      display: flex;
-      gap: 13px;
-      margin-bottom: 25px;
-      animation: appear 0.25s ease;
-    }
+        .new-chat {
+            border: 1px solid rgba(255,255,255,0.1);
 
-    .message.user {
-      justify-content: flex-end;
-    }
+            background: rgba(255,255,255,0.05);
 
-    .avatar {
-      width: 34px;
-      height: 34px;
-      min-width: 34px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.07);
-      font-size: 14px;
-    }
+            color: white;
 
-    .bubble {
-      max-width: 75%;
-      padding: 13px 16px;
-      border-radius: 15px;
-      line-height: 1.55;
-      font-size: 14px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.07);
-    }
+            padding: 13px;
 
-    .user .bubble {
-      background: #6d3bd1;
-      border-color: transparent;
-    }
+            border-radius: 12px;
 
-    /* INPUT */
+            text-align: left;
 
-    .input-wrapper {
-      position: fixed;
-      bottom: 20px;
-      left: 290px;
-      right: 20px;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
-    }
+            transition: 0.2s;
+        }
 
-    .input-box {
-      width: min(850px, 100%);
-      pointer-events: auto;
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
-      padding: 11px;
-      background: rgba(20,20,29,0.94);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 18px;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.35);
-      backdrop-filter: blur(20px);
-    }
 
-    .attach {
-      width: 40px;
-      height: 40px;
-      border: none;
-      border-radius: 11px;
-      background: rgba(255,255,255,0.06);
-      color: #aaaab5;
-      cursor: pointer;
-      font-size: 18px;
-    }
+        .new-chat:hover {
+            background: rgba(255,255,255,0.09);
+        }
 
-    textarea {
-      flex: 1;
-      resize: none;
-      max-height: 120px;
-      border: none;
-      outline: none;
-      background: transparent;
-      color: white;
-      font-size: 14px;
-      line-height: 1.5;
-      padding: 10px 3px;
-      font-family: inherit;
-    }
 
-    textarea::placeholder {
-      color: #70707b;
-    }
+        .history-title {
+            color: #777783;
 
-    .send {
-      width: 42px;
-      height: 42px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #7c3aed, #9333ea);
-      color: white;
-      cursor: pointer;
-      font-size: 18px;
-    }
+            font-size: 11px;
 
-    .send:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 20px rgba(139,92,246,0.3);
-    }
+            text-transform: uppercase;
 
-    @keyframes appear {
-      from {
-        opacity: 0;
-        transform: translateY(5px);
-      }
+            letter-spacing: 1.2px;
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+            margin-top: 8px;
+        }
 
-    /* MOBILE */
 
-    @media (max-width: 750px) {
-      .sidebar {
-        display: none;
-      }
+        .history {
+            display: flex;
 
-      .topbar {
-        padding: 0 15px;
-      }
+            flex-direction: column;
 
-      .input-wrapper {
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-      }
+            gap: 4px;
+        }
 
-      .chat-area {
-        padding-left: 12px;
-        padding-right: 12px;
-      }
 
-      .bubble {
-        max-width: 85%;
-      }
+        .history-item {
+            padding: 11px;
 
-      .welcome {
-        margin-top: 60px;
-      }
-    }
-  </style>
+            border-radius: 10px;
+
+            color: #b8b8c4;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            transition: 0.2s;
+        }
+
+
+        .history-item:hover,
+        .history-item.active {
+            background: rgba(255,255,255,0.05);
+
+            color: white;
+        }
+
+
+        .profile {
+            margin-top: auto;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+            background: rgba(255,255,255,0.04);
+
+            color: #bdbdc8;
+
+            font-size: 13px;
+        }
+
+
+        .profile small {
+            color: #777783;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            flex: 1;
+
+            min-width: 0;
+
+            height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .topbar {
+            height: 68px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.08);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 24px;
+
+            background:
+                rgba(8,8,13,0.72);
+
+            backdrop-filter: blur(15px);
+
+            flex-shrink: 0;
+        }
+
+
+        .topbar-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .mobile-menu {
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            color: white;
+
+            font-size: 21px;
+        }
+
+
+        .chat-title {
+            font-size: 16px;
+
+            font-weight: 700;
+        }
+
+
+        .model-button {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 9px 13px;
+
+            border-radius: 10px;
+
+            color: #dddde5;
+
+            background:
+                rgba(255,255,255,0.05);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+
+            font-size: 13px;
+
+            transition: 0.2s;
+        }
+
+
+        .model-button:hover {
+            background:
+                rgba(255,255,255,0.08);
+        }
+
+
+        .model-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #8b5cf6;
+
+            box-shadow:
+                0 0 10px #8b5cf6;
+        }
+
+
+        /* =========================
+           CHAT
+        ========================= */
+
+        .chat-area {
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 35px 20px 150px;
+        }
+
+
+        .messages {
+            max-width: 850px;
+
+            margin: auto;
+        }
+
+
+        .welcome {
+            max-width: 700px;
+
+            margin: 80px auto 0;
+
+            text-align: center;
+        }
+
+
+        .welcome-icon {
+            width: 65px;
+            height: 65px;
+
+            margin: auto;
+
+            border-radius: 20px;
+
+            display: grid;
+            place-items: center;
+
+            font-size: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #a855f7
+                );
+
+            box-shadow:
+                0 0 45px rgba(139,92,246,0.25);
+        }
+
+
+        .welcome h1 {
+            margin-top: 22px;
+
+            font-size:
+                clamp(28px, 5vw, 42px);
+        }
+
+
+        .welcome p {
+            margin-top: 12px;
+
+            color: #858591;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        .message {
+            display: flex;
+
+            gap: 13px;
+
+            margin-bottom: 25px;
+
+            animation:
+                appear 0.25s ease;
+        }
+
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+
+            min-width: 34px;
+
+            border-radius: 10px;
+
+            display: grid;
+
+            place-items: center;
+
+            background:
+                rgba(255,255,255,0.07);
+
+            font-size: 14px;
+        }
+
+
+        .bubble {
+            max-width: 75%;
+
+            padding: 13px 16px;
+
+            border-radius: 15px;
+
+            line-height: 1.55;
+
+            font-size: 14px;
+
+            background:
+                rgba(255,255,255,0.05);
+
+            border:
+                1px solid rgba(255,255,255,0.07);
+
+            word-wrap: break-word;
+        }
+
+
+        .user .bubble {
+            background: #6d3bd1;
+
+            border-color: transparent;
+        }
+
+
+        /* =========================
+           TYPING
+        ========================= */
+
+        .typing {
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 15px 16px;
+        }
+
+
+        .typing span {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #aaa;
+
+            animation:
+                typing 1.2s infinite;
+        }
+
+
+        .typing span:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+
+        .typing span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+
+        @keyframes typing {
+
+            0%,
+            60%,
+            100% {
+                opacity: 0.25;
+
+                transform: translateY(0);
+            }
+
+            30% {
+                opacity: 1;
+
+                transform: translateY(-3px);
+            }
+        }
+
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =========================
+           INPUT
+        ========================= */
+
+        .input-wrapper {
+            position: fixed;
+
+            bottom: 20px;
+
+            left: 290px;
+
+            right: 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            pointer-events: none;
+        }
+
+
+        .input-box {
+            width:
+                min(850px, 100%);
+
+            pointer-events: auto;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 10px;
+
+            padding: 11px;
+
+            background:
+                rgba(20,20,29,0.94);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 15px 50px rgba(0,0,0,0.35);
+
+            backdrop-filter:
+                blur(20px);
+        }
+
+
+        .attach {
+            width: 40px;
+            height: 40px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            color: #aaaab5;
+
+            font-size: 18px;
+
+            flex-shrink: 0;
+        }
+
+
+        textarea {
+            flex: 1;
+
+            resize: none;
+
+            max-height: 120px;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            color: white;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            padding: 10px 3px;
+
+            font-family: inherit;
+        }
+
+
+        textarea::placeholder {
+            color: #70707b;
+        }
+
+
+        .send {
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #9333ea
+                );
+
+            color: white;
+
+            font-size: 18px;
+
+            flex-shrink: 0;
+
+            transition: 0.2s;
+        }
+
+
+        .send:hover {
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 5px 20px
+                rgba(139,92,246,0.3);
+        }
+
+
+        /* =========================
+           MODE PANEL
+        ========================= */
+
+        .mode-panel {
+            position: fixed;
+
+            top: 58px;
+
+            right: 24px;
+
+            width: 250px;
+
+            padding: 10px;
+
+            background:
+                rgba(20,20,28,0.98);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.45);
+
+            display: none;
+
+            z-index: 20;
+        }
+
+
+        .mode-panel.show {
+            display: block;
+        }
+
+
+        .mode-title {
+            color: #777783;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 8px;
+        }
+
+
+        .mode-option {
+            width: 100%;
+
+            padding: 11px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: transparent;
+
+            color: #ccc;
+
+            text-align: left;
+
+            transition: 0.2s;
+        }
+
+
+        .mode-option:hover,
+        .mode-option.selected {
+            background:
+                rgba(124,58,237,0.18);
+
+            color: white;
+        }
+
+
+        /* =========================
+           MODEL PANEL
+        ========================= */
+
+        .model-panel {
+            position: fixed;
+
+            top: 58px;
+
+            right: 24px;
+
+            width: 230px;
+
+            padding: 10px;
+
+            background:
+                rgba(20,20,28,0.98);
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.45);
+
+            display: none;
+
+            z-index: 20;
+        }
+
+
+        .model-panel.show {
+            display: block;
+        }
+
+
+        .model-option {
+            width: 100%;
+
+            padding: 11px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: transparent;
+
+            color: #ccc;
+
+            text-align: left;
+        }
+
+
+        .model-option:hover {
+            background:
+                rgba(255,255,255,0.06);
+
+            color: white;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                display: none;
+            }
+
+
+            .mobile-menu {
+                display: block;
+            }
+
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+
+            .input-wrapper {
+                left: 10px;
+
+                right: 10px;
+
+                bottom: 10px;
+            }
+
+
+            .chat-area {
+                padding:
+                    25px 12px 140px;
+            }
+
+
+            .bubble {
+                max-width: 85%;
+            }
+
+
+            .welcome {
+                margin-top: 55px;
+            }
+
+
+            .mode-panel,
+            .model-panel {
+                right: 12px;
+            }
+
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-  <aside class="sidebar">
 
-    <div class="brand">
-      <div class="brand-mark">N</div>
-      Nexel
-    </div>
+    <!-- SIDEBAR -->
 
-    <button class="new-chat" onclick="newChat()">
-      ＋ New Chat
-    </button>
+    <aside class="sidebar">
 
-    <div class="history-title">Today</div>
-
-    <div class="history-item">
-      New conversation
-    </div>
-
-    <div class="history-item">
-      Nexel project
-    </div>
-
-    <div class="history-item">
-      Random ideas
-    </div>
-
-    <div class="profile">
-      👤 Guest<br>
-      <span style="color:#777783;">Free Plan</span>
-    </div>
-
-  </aside>
-
-
-  <main class="main">
-
-    <header class="topbar">
-
-      <div class="chat-title">
-        Nexel Chat
-      </div>
-
-      <div class="mode">
-        <span class="mode-dot"></span>
-        Buddy
-      </div>
-
-    </header>
-
-
-    <section class="chat-area" id="chatArea">
-
-      <div class="welcome" id="welcome">
-
-        <div class="welcome-icon">
-          N
+        <div class="brand">
+            <div class="brand-mark">N</div>
+            Nexel
         </div>
 
-        <h1>
-          What are we building today?
-        </h1>
 
-        <p>
-          Talk to Nexel, ask questions, write code,
-          brainstorm ideas, or just chat.
-        </p>
-
-      </div>
-
-      <div class="messages" id="messages"></div>
-
-    </section>
-
-
-    <div class="input-wrapper">
-
-      <div class="input-box">
-
-        <button class="attach" title="Attach file">
-          ＋
+        <button class="new-chat" onclick="newChat()">
+            ＋ New Chat
         </button>
 
-        <textarea
-          id="prompt"
-          rows="1"
-          placeholder="Message Nexel..."
-        ></textarea>
 
-        <button class="send" onclick="sendMessage()">
-          ↑
-        </button>
-
-      </div>
-
-    </div>
-
-  </main>
+        <div class="history-title">
+            Today
+        </div>
 
 
-  <script>
+        <div class="history">
 
-    const promptBox = document.getElementById("prompt");
-    const messages = document.getElementById("messages");
-    const welcome = document.getElementById("welcome");
+            <div class="history-item active">
+                New conversation
+            </div>
 
-    promptBox.addEventListener("input", () => {
-      promptBox.style.height = "auto";
-      promptBox.style.height =
-        Math.min(promptBox.scrollHeight, 120) + "px";
-    });
+            <div class="history-item">
+                Nexel project
+            </div>
 
-    promptBox.addEventListener("keydown", (event) => {
+            <div class="history-item">
+                Random ideas
+            </div>
 
-      if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
-      }
-
-    });
+        </div>
 
 
-    function sendMessage() {
+        <div class="profile">
+            👤 Guest<br>
+            <small>Free Plan</small>
+        </div>
 
-      const text = promptBox.value.trim();
-
-      if (!text) return;
-
-      welcome.style.display = "none";
-
-      const message = document.createElement("div");
-
-      message.className = "message user";
-
-      message.innerHTML = `
-        <div class="bubble">${escapeHTML(text)}</div>
-        <div class="avatar">👤</div>
-      `;
-
-      messages.appendChild(message);
-
-      promptBox.value = "";
-      promptBox.style.height = "auto";
-
-      messages.scrollIntoView({
-        behavior: "smooth",
-        block: "end"
-      });
-
-      // Temporary response.
-      setTimeout(() => {
-
-        const response = document.createElement("div");
-
-        response.className = "message";
-
-        response.innerHTML = `
-          <div class="avatar">N</div>
-          <div class="bubble">
-            I'm here 👀<br><br>
-            The Nexel AI backend isn't connected yet.
-            We're building that next.
-          </div>
-        `;
-
-        messages.appendChild(response);
-
-        response.scrollIntoView({
-          behavior: "smooth",
-          block: "end"
-        });
-
-      }, 600);
-
-    }
+    </aside>
 
 
-    function newChat() {
+    <!-- MAIN -->
 
-      messages.innerHTML = "";
-      welcome.style.display = "block";
-      promptBox.value = "";
-      promptBox.style.height = "auto";
-
-    }
+    <main class="main">
 
 
-    function escapeHTML(text) {
+        <header class="topbar">
 
-      const div = document.createElement("div");
-      div.textContent = text;
+            <div class="topbar-left">
 
-      return div.innerHTML;
+                <button
+                    class="mobile-menu"
+                    onclick="window.location.href='index.html'"
+                >
+                    ☰
+                </button>
 
-    }
+                <div class="chat-title">
+                    Nexel Chat
+                </div>
 
-  </script>
+            </div>
 
-</body>
-    </html>
+
+            <button
+                class="model-button"
+                onclick="toggleModelPanel()"
+            >
+
+                <span class="model-dot"></span>
+
+                <span id="modelName">
+                    Nexel Core
+                </span>
+
+                ▾
+
+            </button>
+
+        </header>
+
+
+        <!-- MODEL SELECTOR -->
+
+        <div class="model-panel" id="modelPanel">
+
+            <div class="mode-title">
+                Choose model
+            </div>
+
+            <button
+                class="model-option"
+                onclick="selectModel('Nexel Core')"
+            >
+                Nexel Core
+            </button>
+
+            <button
+                class="model-option"
+                onclick="selectModel('Nexel Fast')"
+            >
+                Nexel Fast
+            </button>
+
+            <button
+                class="model-option"
+                onclick="selectModel('Nexel Pro')"
+            >
+                Nexel Pro
+            </button>
+
+        </div>
+
+
+        <!-- MODE SELECTOR -->
+
+        <div class="mode-panel" id="modePanel">
+
+            <div class="mode-title">
+                Chat style
+            </div>
+
+            <button class="mode-option selected">
+                🧠 Buddy
+            </button>
+
+            <button class="mode-option">
+                📚 Teacher
+            </button>
+
+            <button class="mode-option">
+                🤝 Friend
+            </button>
+
+            <button class="mode-option">
+                🧭 Guider
+            </button>
+
+            <button class="mode-option">
+                💼 Professional
+            </button>
+
+            <button class="mode-option">
+                🎯 Serious
+            </button>
+
+        </div>
+
+
+        <!-- CHAT AREA -->
+
+        <section class="chat-area" id="chatArea">
+
+            <div class="welcome" id="welcome">
+
+                <div class="welcome-icon">
+                    N
+                </div>
+
+                <h1>
+                    What are we building today?
+                </h1>
+
+                <p>
+                    Talk to Nexel, ask questions,
+                    write code, brainstorm ideas,
+                    or just chat.
+                </p>
+
+            </div>
+
+
+            <div class="messages" id="messages"></div>
+
+        </section>
+
+
+        <!-- INPUT -->
+
+        <div class="input-wrapper">
+
+            <div class="input-box">
+
+                <button
+                    class="attach"
+                    onclick="fakeAttachment()"
+                    title="Attach file"
+                >
+                    ＋
+                </button>
+
+
+                <textarea
+                    id="prompt"
+                    rows="1"
+                    placeholder="Message Nexel..."
+                ></textarea>
+
+
+                <button
+                    class="send"
+                    onclick="sendMessage()"
+                >
+                    ↑
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+        const promptBox =
+            document.getElementById("prompt");
+
+        const messages =
+            document.getElementById("messages");
+
+        const welcome =
+            document.getElementById("welcome");
+
+        const modelPanel =
+            document.getElementById("modelPanel");
+
+
+        let selectedModel =
+            "Nexel Core";
+
+
+        let selectedMode =
+            "Buddy";
+
+
+        /* =========================
+           INPUT
+        ========================= */
+
+        promptBox.addEventListener(
+            "input",
+            () => {
+
+                promptBox.style.height =
+                    "auto";
+
+                promptBox.style.height =
+                    Math.min(
+                        promptBox.scrollHeight,
+                        120
+                    ) + "px";
+
+            }
+        );
+
+
+        promptBox.addEventListener(
+            "keydown",
+            event => {
+
+                if
